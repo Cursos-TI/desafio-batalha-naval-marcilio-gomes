@@ -1,40 +1,117 @@
+// Biblioteca
 #include <stdio.h>
 
-// Desafio Batalha Naval - MateCheck
-// Este código inicial serve como base para o desenvolvimento do sistema de Batalha Naval.
-// Siga os comentários para implementar cada parte do desafio.
+// Função Principal
+int main()
+{
+    // Variaveis
+    int tabuleiro[10][10] = {0};
+    int navio = 3;
+    int linha, coluna;
+    int opcao;
 
-int main() {
-    // Nível Novato - Posicionamento dos Navios
-    // Sugestão: Declare uma matriz bidimensional para representar o tabuleiro (Ex: int tabuleiro[5][5];).
-    // Sugestão: Posicione dois navios no tabuleiro, um verticalmente e outro horizontalmente.
-    // Sugestão: Utilize `printf` para exibir as coordenadas de cada parte dos navios.
+    // Posiciona os navios uma vez só
+    tabuleiro[0][3] = navio;
+    tabuleiro[1][3] = navio;
+    tabuleiro[2][3] = navio;
 
-    // Nível Aventureiro - Expansão do Tabuleiro e Posicionamento Diagonal
-    // Sugestão: Expanda o tabuleiro para uma matriz 10x10.
-    // Sugestão: Posicione quatro navios no tabuleiro, incluindo dois na diagonal.
-    // Sugestão: Exiba o tabuleiro completo no console, mostrando 0 para posições vazias e 3 para posições ocupadas.
+    tabuleiro[6][5] = navio;
+    tabuleiro[6][6] = navio;
+    tabuleiro[6][7] = navio;
 
-    // Nível Mestre - Habilidades Especiais com Matrizes
-    // Sugestão: Crie matrizes para representar habilidades especiais como cone, cruz, e octaedro.
-    // Sugestão: Utilize estruturas de repetição aninhadas para preencher as áreas afetadas por essas habilidades no tabuleiro.
-    // Sugestão: Exiba o tabuleiro com as áreas afetadas, utilizando 0 para áreas não afetadas e 1 para áreas atingidas.
+    tabuleiro[2][5] = navio;
+    tabuleiro[3][6] = navio;
+    tabuleiro[4][7] = navio;
 
-    // Exemplos de exibição das habilidades:
-    // Exemplo para habilidade em cone:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 1 1 1 1 1
-    
-    // Exemplo para habilidade em octaedro:
-    // 0 0 1 0 0
-    // 0 1 1 1 0
-    // 0 0 1 0 0
+    tabuleiro[6][3] = navio;
+    tabuleiro[7][2] = navio;
+    tabuleiro[8][1] = navio;
 
-    // Exemplo para habilidade em cruz:
-    // 0 0 1 0 0
-    // 1 1 1 1 1
-    // 0 0 1 0 0
+    do
+    {
+        // Inicio do Jogo Com Menu
+        printf("\n===========================\n");
+        printf("     BATALHA NAVAL \n");
+        printf("===========================\n");
+        printf("1. Jogar\n");
+        printf("2. Sair\n");
+        printf("Opcao: ");
+        scanf("%d", &opcao);
+        printf("\n");
+
+        switch (opcao)
+        {
+        case 1:
+            // Desenha o cabeçalho com letras
+            printf("  A B C D E F G H I J\n");
+
+            for (int i = 0; i < 10; i++)
+            {
+                printf("%d ", i + 1);
+                for (int j = 0; j < 10; j++)
+                {
+                    if (tabuleiro[i][j] == -1)
+                    {
+                        printf("5 "); // Acerto
+                    }
+                    else if (tabuleiro[i][j] == -2)
+                    {
+                        printf("0 "); // Água
+                    }
+                    else
+                    {
+                        printf(". "); // Água escondida
+                    }
+                }
+                printf("\n");
+            }
+
+            // Recebe a jogada
+            printf("\nEscolha linha (1 - 10): ");
+            scanf("%d", &linha);
+            printf("Escolha coluna (A - J): ");
+            char colunaLetra;
+            scanf(" %c", &colunaLetra);
+
+            // Converte a letra em número
+            coluna = colunaLetra - 'A';
+
+            if (linha < 1 || linha > 10 || coluna < 0 || coluna > 9)
+            {
+                printf("\nCoordenadas invalidas! Tente novamente.\n");
+            }
+            else
+            {
+                linha--; // Ajusta para índice 0
+
+                // Verifica se acertou
+                if (tabuleiro[linha][coluna] == navio)
+                {
+                    printf("\n🎯 Acertou um navio!\n");
+                    tabuleiro[linha][coluna] = -1; // Marca como acertado
+                }
+                else if (tabuleiro[linha][coluna] == 0)
+                {
+                    printf("\n Errou, so agua.\n");
+                    tabuleiro[linha][coluna] = -2; // Marca como erro
+                }
+                else
+                {
+                    printf("\n Voce ja tentou aqui!\n");
+                }
+            }
+            break;
+
+        case 2:
+            printf("\nSaindo do Jogo... 🚪\n");
+            break;
+
+        default:
+            printf("\nOpcao invalida. Tente novamente.\n");
+            break;
+        }
+    } while (opcao != 2);
 
     return 0;
 }
+
